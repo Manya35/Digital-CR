@@ -1,0 +1,70 @@
+.classroom-module {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.room-selection {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.room-selection button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.room-selection button:hover {
+    background-color: #45a049;
+}
+
+.room-selection button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.room-booking {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.room-booking button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.room-booking button:hover {
+    background-color: #0b7dda;
+}
+
+.booked-rooms {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.booked-rooms ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.booked-rooms li {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
