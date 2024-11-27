@@ -3,6 +3,9 @@ import './styles/SocietyModule.css';
 
 const SocietyModule = () => {
     const [selectedSociety, setSelectedSociety] = useState(null);
+    const [selectedSection, setSelectedSection] = useState(''); // Track which section (About, Events, Subscribe) to display
+    const [email, setEmail] = useState('');
+    const [subscriptionMessage, setSubscriptionMessage] = useState('');
 
     const societies = [
         { id: 'coding-society', name: 'Coding Society' },
@@ -30,8 +33,47 @@ const SocietyModule = () => {
         ],
     };
 
+    const societyAbout = {
+        'coding-society': {
+            description: 'The Coding Society is dedicated to helping students enhance their programming skills through workshops, hackathons, and regular coding challenges.',
+            president: 'Alice Johnson',
+            teamHeads: ['Bob Smith (Web Development)', 'Charlie Brown (Data Science)', 'David Lee (App Development)']
+        },
+        'music-society': {
+            description: 'The Music Society brings together music lovers, singers, and instrumentalists for jam sessions, concerts, and music events.',
+            president: 'Emma Davis',
+            teamHeads: ['Liam Garcia (Guitar)', 'Mia Martinez (Vocals)', 'Noah Rodriguez (Drums)']
+        },
+        'sports-club': {
+            description: 'The Sports Club promotes physical activity, organizing tournaments and matches across various sports like football, basketball, and cricket.',
+            president: 'Sophia Lee',
+            teamHeads: ['Oliver Miller (Football)', 'Isabella Wilson (Basketball)', 'James Taylor (Cricket)']
+        },
+        'drama-society': {
+            description: 'The Drama Society is focused on acting, playwriting, and producing various theatrical performances throughout the year.',
+            president: 'Benjamin Clark',
+            teamHeads: ['Lucas Young (Directing)', 'Amelia Walker (Costume Design)', 'Ethan Hall (Set Design)']
+        },
+    };
+
     const handleSocietySelection = (societyId) => {
         setSelectedSociety(societyId);
+        setSelectedSection(''); // Reset the selected section when a new society is chosen
+        setEmail('');
+        setSubscriptionMessage('');
+    };
+
+    const handleSectionSelection = (section) => {
+        setSelectedSection(section);
+    };
+
+    const handleSubscribe = (e) => {
+        e.preventDefault();
+        if (email) {
+            setSubscriptionMessage(`You have successfully subscribed to the ${societies.find(s => s.id === selectedSociety).name} newsletter!`);
+        } else {
+            alert('Please enter a valid email.');
+        }
     };
 
     return (
@@ -46,6 +88,23 @@ const SocietyModule = () => {
             </div>
 
             {selectedSociety && (
+                <div className="section-buttons">
+                    <button onClick={() => handleSectionSelection('about')}>About</button>
+                    <button onClick={() => handleSectionSelection('events')}>Events</button>
+                    <button onClick={() => handleSectionSelection('subscribe')}>Subscribe</button>
+                </div>
+            )}
+
+            {selectedSection === 'about' && selectedSociety && (
+                <div className="about-section">
+                    <h3>About {societies.find(s => s.id === selectedSociety).name}</h3>
+                    <p>{societyAbout[selectedSociety].description}</p>
+                    <p><strong>President:</strong> <span className="highlight">{societyAbout[selectedSociety].president}</span></p>
+                    <p><strong>Team Heads:</strong> <span className="highlight">{societyAbout[selectedSociety].teamHeads.join(', ')}</span></p>
+                </div>
+            )}
+
+            {selectedSection === 'events' && selectedSociety && (
                 <div className="events-list">
                     <h3>{societies.find(s => s.id === selectedSociety).name} - Upcoming Events</h3>
                     <ul>
@@ -57,6 +116,23 @@ const SocietyModule = () => {
                             </li>
                         ))}
                     </ul>
+                </div>
+            )}
+
+            {selectedSection === 'subscribe' && selectedSociety && (
+                <div className="subscribe-section">
+                    <h3>Subscribe to {societies.find(s => s.id === selectedSociety).name} Newsletter</h3>
+                    <form onSubmit={handleSubscribe}>
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                        <button type="submit">Subscribe</button>
+                    </form>
+                    {subscriptionMessage && <p>{subscriptionMessage}</p>}
                 </div>
             )}
         </div>

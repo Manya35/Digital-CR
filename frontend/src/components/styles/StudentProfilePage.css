@@ -79,3 +79,37 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #ddd;
 }
+
+/* styles/StudentProfilePage.css */
+
+.development-banner {
+    background-color: #ffcc00;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* styles/StudentProfilePage.css */
+
+/* Style for Preview Button */
+.preview-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.preview-button button {
+    padding: 10px 20px;
+    font-size: 56px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.preview-button button:hover {
+    background-color: #0056b3;
+}

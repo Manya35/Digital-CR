@@ -4,12 +4,13 @@ import './styles/StudentProfilePage.css';
 const StudentProfile = () => {
     const [enrollmentNumber, setEnrollmentNumber] = useState('');
     const [studentData, setStudentData] = useState(null);
+    const [showSearch, setShowSearch] = useState(false); // State to control the visibility of the search input
 
     // Hardcoded student data for demonstration
     const studentProfiles = [
         {
-            enrollment: '20270001',
-            name: 'John Doe',
+            enrollment: '1',
+            name: 'Jane Smith',
             universityRank: 10,
             batchRank: 2,
             cgpa: 8.5,
@@ -21,8 +22,8 @@ const StudentProfile = () => {
             ]
         },
         {
-            enrollment: '20270002',
-            name: 'Jane Smith',
+            enrollment: '2',
+            name: 'John Doe',
             universityRank: 20,
             batchRank: 5,
             cgpa: 7.9,
@@ -44,18 +45,44 @@ const StudentProfile = () => {
         setStudentData(profile || null);
     };
 
+    // Function to handle the Enter key press
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            fetchStudentProfile();
+        }
+    };
+
+    const handlePreviewClick = () => {
+        setShowSearch(true); // Show the search input when Preview button is clicked
+    };
+
     return (
         <div className="student-profile-page">
-            <h2>Student Profile</h2>
-            <div className="enrollment-input">
-                <input
-                    type="text"
-                    placeholder="Enter Enrollment Number"
-                    value={enrollmentNumber}
-                    onChange={handleEnrollmentChange}
-                />
-                <button onClick={fetchStudentProfile}>Search</button>
+            <h2>Student Profile (Under Development)</h2>
+            <div className="development-banner">
+                <p>This page is under development and will be available in the future!</p>
             </div>
+
+            {/* Preview Button */}
+            {!showSearch && (
+                <div className="preview-button">
+                    <button onClick={handlePreviewClick}>Preview</button>
+                </div>
+            )}
+
+            {/* Show the search bar only when Preview button is clicked */}
+            {showSearch && (
+                <div className="enrollment-input">
+                    <input
+                        type="text"
+                        placeholder="Enter Enrollment Number"
+                        value={enrollmentNumber}
+                        onChange={handleEnrollmentChange}
+                        onKeyDown={handleKeyPress} // Added keyDown event
+                    />
+                    <button onClick={fetchStudentProfile}>Search</button>
+                </div>
+            )}
 
             {studentData ? (
                 <div className="student-details">

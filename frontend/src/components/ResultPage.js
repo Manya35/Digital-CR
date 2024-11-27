@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles/ResultPage.css';
+import hardcodedData from './ResultData.js';
 
 const ResultPage = () => {
     const [selectedYear, setSelectedYear] = useState(null);
@@ -39,51 +40,45 @@ const ResultPage = () => {
         setSearchQuery(event.target.value);
     };
 
-    const fetchResults = async (courseId) => {
-        const url = `https://script.google.com/macros/s/AKfycbyCbHlxYIZsYSUfOiZa0rznRMWUrFXNrwPxZAs2IfKPU2VGKrMP-CJosPVWLKmslOAJ/exec?course=${courseId}`;
-        console.log(`Fetching results from: ${url}`);
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            if (data.message) {
-                setMessage(data.message);
-                setResultsData([]);
-            } else {
-                setMessage('');
-                const updatedData = data.map((student) => {
-                    const semValues = [
-                        student.sem1 || 0,
-                        student.sem2 || 0,
-                        student.sem3 || 0,
-                        student.sem4 || 0,
-                        student.sem5 || 0,
-                        student.sem6 || 0,
-                        student.sem7 || 0,
-                        student.sem8 || 0,
-                    ];
-                    const presentValues = semValues.filter((value) => value > 0);
-                    const total =
-                        presentValues.length > 0
-                            ? presentValues.reduce((a, b) => a + b, 0) /
-                              presentValues.length
-                            : 0;
-
-                    return { ...student, total };
-                });
-                updatedData.sort((a, b) => b.total - a.total);
-                updatedData.forEach((student, index) => {
-                    student.rank = index + 1;
-                });
-                setResultsData(updatedData);
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            setMessage("Error fetching results. Please try again later.");
+    const fetchResults = (courseId) => {
+        const data = hardcodedData[courseId] || [];
+        if (data.length === 0) {
+            setMessage("No results found for this course.");
+            setResultsData([]);
+            return;
         }
+
+        const updatedData = data.map((student) => {
+            const semValues = [
+                student.SEM1 || 0,
+                student.SEM2 || 0,
+                student.SEM3 || 0,
+                student.SEM4 || 0,
+                student.SEM5 || 0,
+                student.SEM6 || 0,
+                student.SEM7 || 0,
+                student.SEM8 || 0,
+            ];
+            const presentValues = semValues.filter((value) => value > 0);
+            const total =
+                presentValues.length > 0
+                    ? presentValues.reduce((a, b) => a + b, 0) / presentValues.length
+                    : 0;
+
+            return { ...student, total };
+        });
+
+        updatedData.sort((a, b) => b.total - a.total);
+        updatedData.forEach((student, index) => {
+            student.rank = index + 1;
+        });
+
+        setMessage('');
+        setResultsData(updatedData);
     };
 
     const filteredResults = resultsData.filter((student) =>
-        student.name.toLowerCase().includes(searchQuery.toLowerCase())
+        student.Name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -143,16 +138,16 @@ const ResultPage = () => {
                                         filteredResults.map((student, index) => (
                                             <tr key={index}>
                                                 <td>{student.rank}</td>
-                                                <td>{student.name}</td>
-                                                <td>{student.enrollment}</td>
-                                                <td>{student.sem1 || 0}</td>
-                                                <td>{student.sem2 || 0}</td>
-                                                <td>{student.sem3 || 0}</td>
-                                                <td>{student.sem4 || 0}</td>
-                                                <td>{student.sem5 || 0}</td>
-                                                <td>{student.sem6 || 0}</td>
-                                                <td>{student.sem7 || 0}</td>
-                                                <td>{student.sem8 || 0}</td>
+                                                <td>{student.Name}</td>
+                                                <td>{student.Enrollment}</td>
+                                                <td>{student.SEM1 || 0}</td>
+                                                <td>{student.SEM2 || 0}</td>
+                                                <td>{student.SEM3 || 0}</td>
+                                                <td>{student.SEM4 || 0}</td>
+                                                <td>{student.SEM5 || 0}</td>
+                                                <td>{student.SEM6 || 0}</td>
+                                                <td>{student.SEM7 || 0}</td>
+                                                <td>{student.SEM8 || 0}</td>
                                                 <td className="sticky-total">
                                                     {student.total.toFixed(2)}
                                                 </td>
